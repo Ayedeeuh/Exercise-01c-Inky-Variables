@@ -31,16 +31,23 @@ VAR torches = 0
 * [Pick up the torch] -> torch_pickup
 
 == east_tunnel ==
-You are in the east tunnel. It is very dark, you can't see anything.
-* {torches > 0} [Light Torch] -> east_tunnel_lit
+You are in the east tunnel. {not west_tunnel: It is very dark, you can't see anything.}
+* {not west_tunnel } {torches > 0} [Light Torch] -> east_tunnel_lit
 + [Go Back] -> cave_mouth
++ {west_tunnel} [continue]->east_tunnel_lit
+
 -> END
 
 == west_tunnel ==
-You are in the west. This isnt the way.
+You are in the west tunnel.{torch_pickup: You can see a box in the corner of the room.} {the_box : You've emptied it, and now there is nothing left in the room.}
+* {torch_pickup }[ look in the box ] -> the_box
 + [Go Back] -> cave_mouth
 -> END
 
+== the_box ==
+You look in the box, inside is a small ruby encrusted dagger.
+* [pick up dagger] -> west_tunnel
++ [go back] -> west_tunnel 
 === torch_pickup ===
 ~ torches = torches + 1
 You now have {torches} torches . May it light the way.
